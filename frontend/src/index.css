@@ -1,89 +1,200 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+@import "tailwindcss";
+
+:root {
+  --bg-primary: #0d0d1a;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2235;
+  --accent: #ffb347;
+  --accent-glow: rgba(255, 179, 71, 0.3);
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border: rgba(255, 179, 71, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
-  background-color: #0d0d1a;
-  color: #e0e0e0;
-  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 { font-family: Georgia, serif; }
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0d0d1a;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 179, 71, 0.4);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 179, 71, 0.7);
+}
 
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #0d0d1a; }
-::-webkit-scrollbar-thumb { background: #2a2a3e; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #ffb347; }
+/* Noise texture overlay for depth */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
 
+/* Ambient glow effects */
+.ambient-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Card styles */
 .glass-card {
-  background: rgba(26, 26, 46, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 179, 71, 0.15);
+  background: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 24px;
-  transition: all 0.3s ease;
-}
-.glass-card:hover {
-  border-color: rgba(255, 179, 71, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(255, 179, 71, 0.1);
 }
 
+.amber-glow-card {
+  box-shadow: 0 0 30px rgba(255, 179, 71, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Input styles */
+.input-field {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 179, 71, 0.2);
+  color: #f1f5f9;
+  border-radius: 10px;
+  padding: 12px 16px;
+  width: 100%;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.input-field:focus {
+  border-color: rgba(255, 179, 71, 0.6);
+  background: rgba(255, 179, 71, 0.04);
+  box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.1);
+}
+
+.input-field::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* Button styles */
 .btn-primary {
-  background: linear-gradient(135deg, #ffb347, #f5a623);
+  background: linear-gradient(135deg, #ffb347, #ff8c00);
   color: #0d0d1a;
   font-weight: 700;
-  padding: 12px 32px;
-  border-radius: 12px;
+  padding: 13px 28px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1rem;
+  font-size: 15px;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+  font-family: 'Inter', sans-serif;
 }
+
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 179, 71, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 179, 71, 0.4);
+  filter: brightness(1.1);
 }
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
 .btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
-.input-field {
-  background: #16162b;
-  border: 1px solid #2a2a3e;
-  color: #e0e0e0;
-  padding: 12px 16px;
+.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(255, 179, 71, 0.3);
+  padding: 12px 24px;
   border-radius: 10px;
-  width: 100%;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-}
-.input-field:focus {
-  outline: none;
-  border-color: #ffb347;
-  box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.1);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
 }
 
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-
-@keyframes spin { to { transform: rotate(360deg); } }
-.spinner {
-  width: 40px; height: 40px;
-  border: 3px solid #2a2a3e;
-  border-top-color: #ffb347;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+.btn-ghost:hover {
+  background: rgba(255, 179, 71, 0.08);
+  border-color: rgba(255, 179, 71, 0.6);
 }
 
-@media print {
-  body { background: white; color: black; }
-  .no-print { display: none !important; }
+/* Label */
+.field-label {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+  display: block;
+}
+
+/* Loading pulse */
+@keyframes pulse-amber {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.pulse-amber {
+  animation: pulse-amber 1.5s ease-in-out infinite;
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,179,71,0.05) 25%, rgba(255,179,71,0.1) 50%, rgba(255,179,71,0.05) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Error shake */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+.shake {
+  animation: shake 0.4s ease;
 }
